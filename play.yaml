@@ -1,0 +1,15 @@
+- hosts: webservers
+  become: true
+  tasks:
+   - name: Install NGINX HTTP Server
+     apt: name=nginx state=latest update_cache=true
+   - name: Start NGINX HTTP Server and Enable It
+     service: name=nginx state=started enabled=true
+   - name: Allow HTTP Service In The Firewall
+     ufw: name="Nginx HTTP" rule=allow
+     
+   - name: Create index.html for Ubuntu
+     copy:
+       dest: "/usr/share/nginx/html/index.html"
+       content: |
+          <h1>Running on Ubuntu</h1>
